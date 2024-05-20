@@ -1,6 +1,6 @@
 .nav-vault-name {
-  position: var(--vault-name-position);
-  top: var(--vault-name-top);
+	position: var(--vault-name-position);
+	top: var(--vault-name-top);
 	z-index: var(--vault-name-z-index);
 	display: flex;
 	gap: .5em;
@@ -13,6 +13,10 @@
 	border-radius: var(--vault-name-border-radius);
 	background-color: var(--vault-name-bgcolor);
 	margin-block-end: .5em;
+}
+
+.nav-vault-name-icon {
+	padding-top: .2em;
 }
 
 .nav-vault-name-icon svg {
@@ -41,15 +45,17 @@
 	align-items: center;
 	display: flex;
 	justify-content: space-between;
+
 	& svg {
-			display: block;
-			margin: 0 auto;
+		display: block;
+		margin: 0 auto;
 	}
 }
 
 .vault-name-settings a {
 	padding: var(--size-2-1);
 }
+
 .vault-name-settings a:focus,
 .vault-name-settings a:focus-visible {
 	box-shadow: 0 0 0 3px var(--background-modifier-border-focus);
