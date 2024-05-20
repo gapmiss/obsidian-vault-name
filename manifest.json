@@ -1,0 +1,10 @@
+{
+	"id": "vault-name",
+	"name": "Vault Name",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "File explorer vault name customization.",
+	"author": "@gapmiss",
+	"authorUrl": "https://github.com/gapmiss",
+	"isDesktopOnly": true
+}

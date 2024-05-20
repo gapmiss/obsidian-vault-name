@@ -1,0 +1,57 @@
+.nav-vault-name {
+  position: var(--vault-name-position);
+  top: var(--vault-name-top);
+	z-index: var(--vault-name-z-index);
+	display: flex;
+	gap: .5em;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: var(--vault-name-alignment);
+	padding: var(--vault-name-padding);
+	border: var(--vault-name-border);
+	border-radius: var(--vault-name-border-radius);
+	background-color: var(--vault-name-bgcolor);
+	margin-block-end: .5em;
+}
+
+.nav-vault-name-icon svg {
+	width: var(--vault-name-icon-size);
+	height: var(--vault-name-icon-size);
+	color: var(--vault-name-icon-color);
+	transform: rotate(var(--vault-name-icon-transform));
+}
+
+.nav-vault-name-title {
+	color: var(--vault-name-title-color);
+	font-family: var(--vault-name-title-font);
+	font-size: var(--vault-name-title-size);
+	letter-spacing: var(--vault-name-title-letter-spacing);
+	font-weight: var(--vault-name-title-weight);
+}
+
+/**
+ * settings
+ */
+.vault-name-icon-select-modal {
+	width: calc(var(--dialog-width) / 1.5);
+}
+
+.vault-name-icon-suggestion {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	& svg {
+			display: block;
+			margin: 0 auto;
+	}
+}
+
+.vault-name-settings a {
+	padding: var(--size-2-1);
+}
+.vault-name-settings a:focus,
+.vault-name-settings a:focus-visible {
+	box-shadow: 0 0 0 3px var(--background-modifier-border-focus);
+	border-radius: var(--radius-s);
+}
