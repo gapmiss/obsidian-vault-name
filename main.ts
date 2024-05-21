@@ -89,6 +89,7 @@ export default class VaultNamePlugin extends Plugin {
 			let ariaLabel: string = (this.app.vault.adapter as FileSystemAdapter).getBasePath() + "\n\n" + this.app.vault.getFiles().length.toLocaleString() + " files, " + (folderCount-1).toLocaleString() + " folder" + plural;
 			el.setAttribute('aria-label', ariaLabel);
 			el.setAttribute('data-tooltip-position', 'right');
+			// wrapper styles
 			let wrapperStyles: string = '';
 			// alignment
 			if (this.settings.alignment !== '') {
@@ -132,7 +133,7 @@ export default class VaultNamePlugin extends Plugin {
 				wrapperStyles
 			);
 		});
-		// icon
+		// icon styles
 		if (this.settings.showIcon) {
 			const vaultNameIcon = createDiv('nav-vault-name-icon', (el) => {
 				let iconStyles:string = '';
@@ -165,8 +166,9 @@ export default class VaultNamePlugin extends Plugin {
 			// append icon element to wrapper div
 			vaultNameWrapper.appendChild(vaultNameIcon);
 		}
-		// title
+		// title styles
 		const vaultNameElement = createDiv('nav-vault-name-title', (el) => {
+			// vault name
 			el.textContent = this.app.vault.getName();
 			let titleStyles: string = '';
 			// title color
