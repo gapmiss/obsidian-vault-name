@@ -45,13 +45,8 @@ export default class VaultNamePlugin extends Plugin {
 		// settings tab
 		await this.loadSettings();
 		this.addSettingTab(new VaultNameSettingTab(this.app, this));
-		// activate after workspace opens
-		this.registerEvent(
-			this.app.workspace.on('layout-change', () => {
-				this.deactivateVaultName();
-				this.activateVaultName();
-			})
-		);
+		// register onLayoutReady()
+		this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
 		// update on file/folder create
 		this.registerEvent(
 			this.app.vault.on('create', () => {
@@ -66,9 +61,13 @@ export default class VaultNamePlugin extends Plugin {
 				this.activateVaultName();
 			})
 		);
-		// activate vault name
-		this.activateVaultName();
+
 		console.log('Vault name plugin loaded');
+	}
+
+	onLayoutReady() {
+		this.deactivateVaultName();
+		this.activateVaultName();
 	}
 
 	onunload() {
