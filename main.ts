@@ -61,7 +61,6 @@ export default class VaultNamePlugin extends Plugin {
 				this.activateVaultName();
 			})
 		);
-
 		console.log('Vault name plugin loaded');
 	}
 
@@ -79,20 +78,9 @@ export default class VaultNamePlugin extends Plugin {
 		const navContainer = window.activeDocument.querySelector('.nav-files-container');
 		// wrapper
 		const vaultNameWrapper = createDiv('nav-vault-name', (el) => {
-			// Vault stats aria-label tooltip
-			let allLoadedFile = this.app.vault.getAllLoadedFiles();
-			let folderCount: number = 0;
-			allLoadedFile.forEach((f) => {
-				if (f instanceof TFolder) {
-					folderCount++;
-				}
-			});
-			// is there more than one (1) folder?
-			let plural: string = '';
-			if ((folderCount-1) > 1) {
-				plural = 's';
-			}
-			let ariaLabel: string = (this.app.vault.adapter as FileSystemAdapter).getBasePath() + "\n\n" + this.app.vault.getFiles().length.toLocaleString() + " files, " + (folderCount-1).toLocaleString() + " folder" + plural;
+			// Vault stats aria-label tooltip			
+			let ariaLabel: string = this.getBasePath() + "\n\n" + this.getFileCount() + ", " + this.getFolderCount();
+			// set tooltip
 			el.setAttribute('aria-label', ariaLabel);
 			el.setAttribute('data-tooltip-position', 'right');
 			// wrapper styles
@@ -223,6 +211,38 @@ export default class VaultNamePlugin extends Plugin {
 		window.activeDocument.querySelector('.nav-vault-name')?.remove();
 	}
 
+	getBasePath() {
+    const adapter = this.app.vault.adapter;
+    if (adapter instanceof FileSystemAdapter) {
+        return adapter.getBasePath();
+    }
+	}
+
+	getFileCount() {
+		let fileCount: number = this.app.vault.getFiles().length;
+		let plural: string = '';
+		if (fileCount > 1) {
+			plural = 's';
+		}
+		return fileCount.toLocaleString() +  ' file' + plural;
+	}
+
+	getFolderCount() {
+		let allLoadedFile = this.app.vault.getAllLoadedFiles();
+		let folderCount: number = 0;
+		allLoadedFile.forEach((f) => {
+			if (f instanceof TFolder) {
+				folderCount++;
+			}
+		});
+		// is there more than one (1) folder?
+		let plural: string = '';
+		if ((folderCount-1) > 1) {
+			plural = 's';
+		}
+		return (folderCount-1).toLocaleString() + " folder" + plural
+	}
+
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
@@ -267,7 +287,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
       .setName('Alignment')
-			.setDesc('Default: flex-start')
+			.setDesc('CSS justify-content value. Default: flex-start')
       .addDropdown((dropdown) => {
         dropdown
           .addOptions({
@@ -284,7 +304,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descPadding = document.createDocumentFragment();
 		descPadding.append(
-			"For available CSS variables, see ",
+			"CSS padding value. For available variables, see ",
 			descPadding.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Spacing",
 				text: "Spacing",
@@ -307,7 +327,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descBackground = document.createDocumentFragment();
 		descBackground.append(
-			"For available CSS variables, see ",
+			"CSS background-color value. For available variables, see ",
 			descBackground.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Colors",
 				text: "Colors",
@@ -330,7 +350,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descBorder = document.createDocumentFragment();
 		descBorder.append(
-			"For help with CSS border, see ",
+			"CSS border value. For help with border, see ",
 			descBorder.createEl("a", {
 				href: "https://developer.mozilla.org/en-US/docs/Web/CSS/border",
 				text: "MDN: border",
@@ -353,7 +373,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descBorderRadius = document.createDocumentFragment();
 		descBorderRadius.append(
-			"For available CSS variables, see ",
+			"CSS border-radius value. For available variables, see ",
 			descBorderRadius.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Radiuses",
 				text: "Radiuses",
@@ -418,7 +438,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descIconSize = document.createDocumentFragment();
 		descIconSize.append(
-			"For available CSS variables, see ",
+			"CSS width/height value. For available variables, see ",
 			descIconSize.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Icons#Icon+sizes",
 				text: "Icon sizes",
@@ -441,7 +461,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 		
 		let descIconColor = document.createDocumentFragment();
 		descIconColor.append(
-			"For available CSS variables, see ",
+			"CSS color value. For available variables, see ",
 			descIconColor.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Colors",
 				text: "Colors",
@@ -470,7 +490,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descIconRotate = document.createDocumentFragment();
 		descIconRotate.append(
-			"For help with CSS rotate, see ",
+			"CSS transform: rotate() value. For help with rotate, see ",
 			descIconRotate.createEl("a", {
 				href: "https://developer.mozilla.org/en-US/docs/Web/CSS/rotate",
 				text: "MDN: rotate",
@@ -497,7 +517,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descTitleColor = document.createDocumentFragment();
 		descTitleColor.append(
-			"For available CSS variables, see ",
+			"CSS color value. For available variables, see ",
 			descIconColor.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Colors",
 				text: "Colors",
@@ -526,7 +546,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descFont = document.createDocumentFragment();
 		descFont.append(
-			"For available CSS variables, see ",
+			"CSS font-family value. For available variables, see ",
 			descFont.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Typography#Fonts",
 				text: "Typography",
@@ -549,7 +569,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descFontSize = document.createDocumentFragment();
 		descFontSize.append(
-			"For available CSS variables, see ",
+			"CSS font-size value. For available variables, see ",
 			descFontSize.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Typography#Font+size",
 				text: "Typography",
@@ -572,7 +592,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descFontWeight = document.createDocumentFragment();
 		descFontWeight.append(
-			"For available CSS variables, see ",
+			"CSS font-weight value. For available variables, see ",
 			descFontWeight.createEl("a", {
 				href: "https://docs.obsidian.md/Reference/CSS+variables/Foundations/Typography#Font+weight",
 				text: "Typography",
@@ -595,7 +615,7 @@ class VaultNameSettingTab extends PluginSettingTab {
 
 		let descLetterSpacing = document.createDocumentFragment();
 		descLetterSpacing.append(
-			"For help with CSS letter-spacing, see ",
+			"CSS letter-spacing value. For help with letter-spacing, see ",
 			descLetterSpacing.createEl("a", {
 				href: "https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing",
 				text: "MDN: letter-spacing",
