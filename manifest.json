@@ -6,5 +6,10 @@
 	"description": "Display and customize the vault name (title) in the side navigation file explorer.",
 	"author": "@gapmiss",
 	"authorUrl": "https://github.com/gapmiss",
+	"fundingUrl": {
+		"Github Sponsors": "https://github.com/sponsors/gapmiss",
+		"Buy Me a Coffee": "https://buymeacoffee.com/gapmiss",
+		"Ko-Fi": "https://ko-fi.com/gapmiss"
+	},
 	"isDesktopOnly": true
 }
