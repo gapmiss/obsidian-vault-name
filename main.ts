@@ -99,7 +99,7 @@ export default class VaultNamePlugin extends Plugin {
       }
       // position: sticky
       if (this.settings.sticky) {
-        wrapperStyles += '--vault-name-position: sticky; --vault-name-top: 0; --vault-name-z-index: 9; ';
+        wrapperStyles += '--vault-name-position: sticky; --vault-name-top: -4px; --vault-name-z-index: 9; ';
       } else {
         wrapperStyles += '--vault-name-position: relative; --vault-name-top: auto; --vault-name-z-index: inherit; ';
       }
