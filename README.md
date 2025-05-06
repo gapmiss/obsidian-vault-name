@@ -35,7 +35,7 @@ Pairs well with the [Legacy vault switcher](https://github.com/Quorafind/Obsidia
 
 ### Manually
 
-1. download `main.js`, `manifest.json` & `styles.css` from the latest [release archive](https://github.com/gapmiss/obsidian-vault-name/releases/)
+1. download `main.js`, `manifest.json` & `styles.css` from the latest [release](https://github.com/gapmiss/obsidian-vault-name/releases/)
 2. create a new folder `/path/to/vault/.obsidian/plugins/obsidian-vault-name`
 3. move all 3 files to `/path/to/vault/.obsidian/plugins/obsidian-vault-name`
 4. Settings > Community plugins > reload **Installed plugins**
