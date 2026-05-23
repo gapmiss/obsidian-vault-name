@@ -1,4 +1,4 @@
-import { App, Plugin, getIconIds, setIcon, PluginSettingTab, Setting, IconName, SuggestModal, FileSystemAdapter, TFolder } from "obsidian";
+import { App, Plugin, getIconIds, setIcon, PluginSettingTab, Setting, IconName, SuggestModal } from "obsidian";
 
 interface VaultNamePluginSettings {
   sticky: boolean;
@@ -75,10 +75,7 @@ export default class VaultNamePlugin extends Plugin {
     const navContainer = window.activeDocument.querySelector('.nav-files-container');
     // wrapper
     const vaultNameWrapper = createDiv('nav-vault-name', (el) => {
-      // Vault stats aria-label tooltip			
-      let ariaLabel: string = this.getBasePath() + "\n\n" + this.getFileCount() + ", " + this.getFolderCount();
-      // set tooltip
-      el.setAttribute('aria-label', ariaLabel);
+      el.setAttribute('aria-label', this.app.vault.getName());
       el.setAttribute('data-tooltip-position', 'right');
       // wrapper styles
       let wrapperStyles: string = '';
@@ -206,38 +203,6 @@ export default class VaultNamePlugin extends Plugin {
 
   deactivateVaultName() {
     window.activeDocument.querySelector('.nav-vault-name')?.remove();
-  }
-
-  getBasePath() {
-    const adapter = this.app.vault.adapter;
-    if (adapter instanceof FileSystemAdapter) {
-        return adapter.getBasePath();
-    }
-  }
-
-  getFileCount() {
-    let fileCount: number = this.app.vault.getFiles().length;
-    let plural: string = '';
-    if (fileCount > 1) {
-      plural = 's';
-    }
-    return fileCount.toLocaleString() +  ' file' + plural;
-  }
-
-  getFolderCount() {
-    let allLoadedFile = this.app.vault.getAllLoadedFiles();
-    let folderCount: number = 0;
-    allLoadedFile.forEach((f) => {
-      if (f instanceof TFolder) {
-        folderCount++;
-      }
-    });
-    // is there more than one (1) folder?
-    let plural: string = '';
-    if ((folderCount-1) > 1) {
-      plural = 's';
-    }
-    return (folderCount-1).toLocaleString() + " folder" + plural
   }
 
   async loadSettings() {
