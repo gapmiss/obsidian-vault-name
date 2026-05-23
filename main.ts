@@ -1,4 +1,4 @@
-import { App, Plugin, getIconIds, setIcon, PluginSettingTab, Setting, IconName, SuggestModal, FileSystemAdapter, TFolder} from "obsidian";
+import { App, Plugin, getIconIds, setIcon, PluginSettingTab, Setting, IconName, SuggestModal, FileSystemAdapter, TFolder } from "obsidian";
 
 interface VaultNamePluginSettings {
   sticky: boolean;
@@ -39,14 +39,13 @@ const DEFAULT_SETTINGS: VaultNamePluginSettings = {
 }
 
 export default class VaultNamePlugin extends Plugin {
-  settings: VaultNamePluginSettings;
+  settings!: VaultNamePluginSettings;
 
   async onload() {
     // settings tab
     await this.loadSettings();
     this.addSettingTab(new VaultNameSettingTab(this.app, this));
-    // register onLayoutReady()
-    this.app.workspace.onLayoutReady(this.onLayoutReady.bind(this));
+    this.app.workspace.onLayoutReady(() => this.onLayoutReady());
     // update on file/folder create
     this.registerEvent(
       this.app.vault.on('create', () => {
@@ -61,7 +60,6 @@ export default class VaultNamePlugin extends Plugin {
         this.activateVaultName();
       })
     );
-    console.log('Vault name plugin loaded');
   }
 
   onLayoutReady() {
@@ -71,7 +69,6 @@ export default class VaultNamePlugin extends Plugin {
 
   onunload() {
     this.deactivateVaultName();
-    console.log('Vault name plugin unloaded');
   }
 
   activateVaultName() {
@@ -244,7 +241,7 @@ export default class VaultNamePlugin extends Plugin {
   }
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<VaultNamePluginSettings>);
   }
 
   async saveSettings() {
@@ -270,7 +267,7 @@ class VaultNameSettingTab extends PluginSettingTab {
     containerEl.addClass('vault-name-settings');
 
     new Setting(containerEl)
-      .setName("General styles")
+      .setName("Wrapper styles")
       .setHeading();
 
     new Setting(containerEl)
@@ -302,7 +299,7 @@ class VaultNameSettingTab extends PluginSettingTab {
           });
       })
 
-    let descPadding = document.createDocumentFragment();
+    let descPadding = createFragment();
     descPadding.append(
       "CSS padding value. For available variables, see ",
       descPadding.createEl("a", {
@@ -325,7 +322,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descBackground = document.createDocumentFragment();
+    let descBackground = createFragment();
     descBackground.append(
       "CSS background-color value. For available variables, see ",
       descBackground.createEl("a", {
@@ -348,7 +345,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descBorder = document.createDocumentFragment();
+    let descBorder = createFragment();
     descBorder.append(
       "CSS border value. For help with border, see ",
       descBorder.createEl("a", {
@@ -371,7 +368,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descBorderRadius = document.createDocumentFragment();
+    let descBorderRadius = createFragment();
     descBorderRadius.append(
       "CSS border-radius value. For available variables, see ",
       descBorderRadius.createEl("a", {
@@ -428,15 +425,17 @@ class VaultNameSettingTab extends PluginSettingTab {
           cb.buttonEl, 'keydown', (e) => {
             switch (e.key) {
               case "Enter":
-              case " ":
+              case " ": {
                 e.preventDefault();
                 const modal = new IconSuggestModal(this.plugin);
                 modal.open();
+                break;
+              }
             }
           });
       });
 
-    let descIconSize = document.createDocumentFragment();
+    let descIconSize = createFragment();
     descIconSize.append(
       "CSS width/height value. For available variables, see ",
       descIconSize.createEl("a", {
@@ -459,7 +458,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
     
-    let descIconColor = document.createDocumentFragment();
+    let descIconColor = createFragment();
     descIconColor.append(
       "CSS color value. For available variables, see ",
       descIconColor.createEl("a", {
@@ -488,7 +487,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descIconRotate = document.createDocumentFragment();
+    let descIconRotate = createFragment();
     descIconRotate.append(
       "CSS transform: rotate() value. For help with rotate, see ",
       descIconRotate.createEl("a", {
@@ -515,7 +514,7 @@ class VaultNameSettingTab extends PluginSettingTab {
       .setName("Title styles")
       .setHeading();
 
-    let descTitleColor = document.createDocumentFragment();
+    let descTitleColor = createFragment();
     descTitleColor.append(
       "CSS color value. For available variables, see ",
       descIconColor.createEl("a", {
@@ -544,7 +543,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descFont = document.createDocumentFragment();
+    let descFont = createFragment();
     descFont.append(
       "CSS font-family value. For available variables, see ",
       descFont.createEl("a", {
@@ -567,7 +566,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descFontSize = document.createDocumentFragment();
+    let descFontSize = createFragment();
     descFontSize.append(
       "CSS font-size value. For available variables, see ",
       descFontSize.createEl("a", {
@@ -590,7 +589,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descFontWeight = document.createDocumentFragment();
+    let descFontWeight = createFragment();
     descFontWeight.append(
       "CSS font-weight value. For available variables, see ",
       descFontWeight.createEl("a", {
@@ -613,7 +612,7 @@ class VaultNameSettingTab extends PluginSettingTab {
         })
       )
 
-    let descLetterSpacing = document.createDocumentFragment();
+    let descLetterSpacing = createFragment();
     descLetterSpacing.append(
       "CSS letter-spacing value. For help with letter-spacing, see ",
       descLetterSpacing.createEl("a", {
@@ -687,9 +686,9 @@ class IconSuggestModal extends SuggestModal<IconName> {
    * Saves the selected icon to settings, closes the modal, refreshes the parent.
    * @param selectedIcon Icon to save.
    */
-  onChooseSuggestion(item: string, evt: MouseEvent | KeyboardEvent) {
+  onChooseSuggestion(item: string, _evt: MouseEvent | KeyboardEvent) {
       this.plugin.settings.icon = item;
-      this.plugin.saveSettings();
+      void this.plugin.saveSettings();
       setIcon(activeDocument.querySelector('[data-note-toolbar-no-icon]')!, item);
       this.close();
   }
