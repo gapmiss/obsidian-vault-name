@@ -75,8 +75,6 @@ export default class VaultNamePlugin extends Plugin {
     const navContainer = window.activeDocument.querySelector('.nav-files-container');
     // wrapper
     const vaultNameWrapper = createDiv('nav-vault-name', (el) => {
-      el.setAttribute('aria-label', this.app.vault.getName());
-      el.setAttribute('data-tooltip-position', 'right');
       // wrapper styles
       let wrapperStyles: string = '';
       // alignment
