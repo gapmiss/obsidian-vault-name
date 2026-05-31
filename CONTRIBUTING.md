@@ -22,9 +22,3 @@ npm install
 npm run dev    # Watch mode
 npm run build  # Production build
 ```
-
-## Code style
-
-- Use `requestUrl()` instead of `fetch()`
-- Use `activeDocument` instead of `document`
-- Follow existing patterns in the codebase
