@@ -15,17 +15,17 @@ From Obsidian's settings or preferences:
 
 Manually:
 
-1. download the latest [release](https://github.com/gapmiss/vault-name/releases/latest) archive
+1. download the latest [release](https://github.com/gapmiss/obsidian-vault-name/releases/latest) archive
 2. uncompress the downloaded archive
-3. move the `vault-name` folder to `/path/to/vault/.obsidian/plugins/` 
+3. move the `obsidian-vault-name` folder to `/path/to/vault/.obsidian/plugins/` 
 4.  Settings > Community plugins > reload **Installed plugins**
 5.  enable plugin
 
 or:
 
-1.  download `main.js`, `manifest.json` & `styles.css` from the latest [release](https://github.com/gapmiss/vault-name/releases/latest)
-2.  create a new folder `/path/to/vault/.obsidian/plugins/vault-name`
-3.  move all 3 files to `/path/to/vault/.obsidian/plugins/vault-name`
+1.  download `main.js`, `manifest.json` & `styles.css` from the latest [release](https://github.com/gapmiss/obsidian-vault-name/releases/latest)
+2.  create a new folder `/path/to/vault/.obsidian/plugins/obsidian-vault-name`
+3.  move all 3 files to `/path/to/vault/.obsidian/plugins/obsidian-vault-name`
 4.  Settings > Community plugins > reload **Installed plugins**
 5.  enable plugin
 
