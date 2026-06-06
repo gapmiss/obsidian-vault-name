@@ -72,7 +72,8 @@ export default class VaultNamePlugin extends Plugin {
   }
 
   activateVaultName() {
-    const navContainer = window.activeDocument.querySelector('.nav-files-container');
+    const mainDoc = this.app.workspace.containerEl.ownerDocument;
+    const navContainer = mainDoc.querySelector('.nav-files-container');
     // wrapper
     const vaultNameWrapper = createDiv('nav-vault-name', (el) => {
       // wrapper styles
@@ -200,7 +201,8 @@ export default class VaultNamePlugin extends Plugin {
   }
 
   deactivateVaultName() {
-    window.activeDocument.querySelector('.nav-vault-name')?.remove();
+    const mainDoc = this.app.workspace.containerEl.ownerDocument;
+    mainDoc.querySelector('.nav-vault-name')?.remove();
   }
 
   async loadSettings() {
